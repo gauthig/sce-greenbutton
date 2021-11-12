@@ -1,37 +1,58 @@
-## Welcome to GitHub Pages
+## Welcome to SCE Green Button Parser
 
-You can use the [editor on GitHub](https://github.com/gauthig/sce-greenbutton/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+This python program will parse SCE Green Button csv files.
+Green button data from utilities is not always the same format so this is tuned to SCE's net metering format.  Yes, Even SCE has several formats based on customer plan.
+If someone provides sample data for other green button formats (including SCE non Net Metering) I will incorporate.  
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Looking for contributors that want to change the parsing function to parse their format of data.  Will add a command line option to set which format to parse to. 
 
-### Markdown
+## Still in progress - here is what is completed and works
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Features
+- [X] Parse SCE NetMetering version of Green Button CSV file - Solar
+- [X] Send data to influxdb (v1, non-ssl) - should be on private network and not public accessible due to no SSL
+- [ ] Grafana dashboard to analyze Energy Delivery and Generation
+- [X] Create formatted text file for use in other programs (Formatted for Influxdb)
+- [ ] Create simple parsed CSV file for use in excel or other database
+- [ ] Add SSL support
+- [ ] Add support for influxdb2
 
-```markdown
-Syntax highlighted code block
+## Program Setup 
+- python3
+- make sure the following libraries are install using pip3 or homebrew
+  - influxdb
+  - json
+  - gzip
+  - argparse
+- Run the program
 
-# Header 1
-## Header 2
-### Header 3
+## Usage
+### usage: sceinfluxdb.py [-h] [--version] -f FILE [-n HOSTNAME] [-v] [-q] [-P PORT] [-o] [-b BATCHSIZE]
+###                      [--dbname [DBNAME]] [-u [USER]] [-p [PASSWORD]] [-tz TIMEZONE] [--createdb]
 
-- Bulleted
-- List
+Loads SCE Green Button csv file and send formatted results to influxdb.Used for Net Metering format only (solar)
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/gauthig/sce-greenbutton/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+optional arguments:
+<br>  -h, --help            show this help message and exit
+<br>   --version             display version number
+<br>   -f FILE, --file FILE  filename of the sce greenbutton data
+<br>   -n HOSTNAME, --hostname HOSTNAME
+                        the influxdb host name, no port or http example --host influxdb.mydomain.com
+<br>   -v, --verbose         verbose output - send copy of each line to stdout
+<br>   -q, --quiet           do not print totals output
+<br>   -P PORT, --port PORT  port of the influxdb, if not provided it will default to 8086
+<br>   -o, --csvout          sends parsed data to a csvfile. -p can be used or omitted with -o
+<br>   -b BATCHSIZE, --batchsize BATCHSIZE
+                        Batch size. Default: 5000.
+<br>   --dbname [DBNAME]     Database name. Required if -n and -p used
+<br>   -u [USER], --user [USER]
+                        influxdb userid
+<br>   -p [PASSWORD], --password [PASSWORD]
+                        Influxdb password
+<br>   -tz TIMEZONE, --timezone TIMEZONE
+                        Timezone of supplied data. Default: UTC
+<br>   --createdb            Drop database and create a new one.
 
 ### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Please go to the Github site and post an issue (Feature Requests or bugs) or use the discussion page to ask questions.
+    https://github.com/gauthig/sce-greenbutton
